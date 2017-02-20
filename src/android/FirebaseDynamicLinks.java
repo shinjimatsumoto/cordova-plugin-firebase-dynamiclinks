@@ -97,15 +97,19 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
       JSONObject response = new JSONObject();
       String invitationId = AppInviteReferral.getInvitationId(intent);
 
-      if (invitationId != null && invitationId != "") {
-          response.put("invitationId", invitationId);
+      try {
+          if (invitationId != null && invitationId != "") {
+              response.put("invitationId", invitationId);
+          }
+
+          response.put("deepLink", AppInviteReferral.getDeepLink(intent));
+
+          PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
+          pluginResult.setKeepCallback(true);
+          _getInvitationCallbackContext.sendPluginResult(pluginResult);
+      } catch (JSONException e) {
+          Log.e(TAG, "Fail to handle dynamic link data", e);
       }
-
-      response.put("deepLink", AppInviteReferral.getDeepLink(intent));
-
-      PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
-      pluginResult.setKeepCallback(true);
-      _getInvitationCallbackContext.sendPluginResult(pluginResult);
   }
 
   private void sendInvitation(final CallbackContext callbackContext, final JSONObject options) {
