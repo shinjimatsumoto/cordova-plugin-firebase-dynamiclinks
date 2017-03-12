@@ -58,40 +58,54 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
   public void onNewIntent(Intent intent) {
       super.onNewIntent(intent);
 
-      if (AppInviteReferral.hasReferral(intent)) {
-          respondWithDeepLink(intent);
-      }
+      respondWithReferral(intent);
   }
 
   private void getInvitation(final CallbackContext callbackContext) {
-    this._getInvitationCallbackContext = callbackContext;
+      this._getInvitationCallbackContext = callbackContext;
 
-    cordova.getThreadPool().execute(new Runnable() {
-      @Override
-      public void run() {
-        Intent activityIntent = cordova.getActivity().getIntent();
+      cordova.getThreadPool().execute(new Runnable() {
+          @Override
+          public void run() {
+              if (respondWithReferral(cordova.getActivity().getIntent())) return;
 
-        if (AppInviteReferral.hasReferral(activityIntent)) {
-          respondWithDeepLink(activityIntent);
-        } else {
-          //noinspection ConstantConditions (added for clarity)
-          AppInvite.AppInviteApi.getInvitation(getGoogleApiClient(), cordova.getActivity(), false)
-            .setResultCallback(new ResultCallback<AppInviteInvitationResult>() {
-              @Override
-              public void onResult(@NonNull AppInviteInvitationResult result) {
-                if (result.getStatus().isSuccess()) {
-                  respondWithDeepLink(result.getInvitationIntent());
-                } else {
-                  _getInvitationCallbackContext.error("Not launched by invitation");
-                }
-              }
-            });
-        }
-      }
-    });
+              AppInvite.AppInviteApi.getInvitation(getGoogleApiClient(), cordova.getActivity(), false)
+                  .setResultCallback(new ResultCallback<AppInviteInvitationResult>() {
+                      @Override
+                      public void onResult(@NonNull AppInviteInvitationResult result) {
+                          if (result.getStatus().isSuccess()) {
+                              Intent intent = result.getInvitationIntent();
+
+                              respondWithDeepLink(intent, AppInviteReferral.getDeepLink(intent));
+                          } else {
+                              _getInvitationCallbackContext.error("Not launched by invitation");
+                          }
+                      }
+              });
+          }
+      });
   }
 
-  private void respondWithDeepLink(Intent intent) {
+  private boolean respondWithReferral(Intent intent) {
+    if (AppInviteReferral.hasReferral(intent)) {
+          respondWithDeepLink(intent, AppInviteReferral.getDeepLink(intent));
+
+          return true;
+      }
+
+      String action = intent.getAction();
+      String data = intent.getDataString();
+
+      if (Intent.ACTION_VIEW.equals(action) && data != null) {
+          respondWithDeepLink(intent, data);
+
+          return true;
+      }
+
+      return false;
+  }
+
+  private void respondWithDeepLink(Intent intent, String deepLink) {
       if (_getInvitationCallbackContext == null) return;
 
       JSONObject response = new JSONObject();
@@ -102,7 +116,7 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
               response.put("invitationId", invitationId);
           }
 
-          response.put("deepLink", AppInviteReferral.getDeepLink(intent));
+          response.put("deepLink", deepLink);
 
           PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
           pluginResult.setKeepCallback(true);
