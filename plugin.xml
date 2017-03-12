@@ -24,7 +24,7 @@
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="FirebaseDynamicLinks">
                 <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinks" />
-                <param name="onload" value="true" />
+                <param name="onload" value="false" />
             </feature>
         </config-file>
 
