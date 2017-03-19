@@ -82,14 +82,15 @@
                      handleUniversalLink:userActivity.webpageURL
                               completion:^(FIRDynamicLink * _Nullable dynamicLink,
                                            NSError * _Nullable error) {
-    // [START_EXCLUDE]
-    NSString *matchType = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak) ? @"Weak" : @"Strong";
 
-    [dl sendDynamicLinkData:@{
+      if (dynamicLink) {
+        NSString *matchType = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak) ? @"Weak" : @"Strong";
+
+        [dl sendDynamicLinkData:@{
            @"deepLink": dynamicLink.url.absoluteString,
            @"matchType": matchType
          }];
-    // [END_EXCLUDE]
+      }
   }];
 
   return handled;
