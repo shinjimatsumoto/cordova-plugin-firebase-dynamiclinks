@@ -139,7 +139,7 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
               // For all properties, see https://firebase.google.com/docs/invites/android
               String title = options.getString("title");
               String message = options.getString("message");
-              String iosClientId = preferences.getString("IOS_CLIENT_ID", "");
+              String iosClientId = preferences.getString("GoogleIOSClientId", "");
               AppInviteInvitation.IntentBuilder builder = new AppInviteInvitation.IntentBuilder(title).setMessage(message);
 
               if (options.has("deepLink")) {
