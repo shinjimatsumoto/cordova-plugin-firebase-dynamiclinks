@@ -10,7 +10,7 @@
 - (BOOL)application:(nonnull UIApplication *)application
             openURL:(nonnull NSURL *)url
             options:(nonnull NSDictionary<NSString *, id> *)options {
-  FirebaseDynamicLinks* dl = (FirebaseDynamicLinks*) [self.viewController pluginObjects][@"FirebaseDynamicLinks"];
+  FirebaseDynamicLinks* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
 
   if ([dl isSigningIn]) {
     dl.isSigningIn = NO;
@@ -30,7 +30,7 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  FirebaseDynamicLinks* dl = (FirebaseDynamicLinks*) [self.viewController pluginObjects][@"FirebaseDynamicLinks"];
+  FirebaseDynamicLinks* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
   // Handle App Invite requests
   FIRReceivedInvite *invite =
       [FIRInvites handleURL:url sourceApplication:sourceApplication annotation:annotation];
@@ -76,7 +76,7 @@
 - (BOOL)application:(UIApplication *)application
     continueUserActivity:(NSUserActivity *)userActivity
       restorationHandler:(void (^)(NSArray *))restorationHandler {
-    FirebaseDynamicLinks* dl = (FirebaseDynamicLinks*) [self.viewController pluginObjects][@"FirebaseDynamicLinks"];
+    FirebaseDynamicLinks* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
 
     BOOL handled = [[FIRDynamicLinks dynamicLinks]
                      handleUniversalLink:userActivity.webpageURL
