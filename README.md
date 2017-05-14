@@ -14,6 +14,20 @@ Go to firebase console and export `google-services.json` and `GoogleService-Info
 - iOS
 - Android
 
+## Preferences
+
+Preferences `GoogleIOSClientId` and `GoogleAndroidClientId` are used to setup dynamic links when you have an app for several platforms. You can find values at your `GoogleService-Info.plist` (key `ANDROID_CLIENT_ID`) and `google-services.json` (key `client[0].oauth_client[0].client_id`).
+
+`config.xml`:
+```
+<platform name="android">
+    <preference name="GoogleIOSClientId" value="..." />
+</platform>
+<platform name="ios">
+    <preference name="GoogleAndroidClientId" value="..." />
+</platform>
+```
+
 ## Methods
 
 ### onDynamicLink(_callback_)
@@ -31,9 +45,7 @@ window.cordova.plugins.firebase.dynamiclinks.sendInvitation({
     deepLink: deepLink,
     title: dialogTitle,
     message: dialogMessage,
-    callToActionText: actionButtonText,
-    iosClientID: iosClientID,
-    androidClientID: androidClientID
+    callToActionText: actionButtonText
 });
 ```
 
