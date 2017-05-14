@@ -37,7 +37,8 @@
     NSString *callToActionText = options[@"callToActionText"];
     NSString *customImage = options[@"customImage"];
     NSString *description = options[@"description"];
-    NSString *androidClientID = options[@"androidClientID"];
+
+    NSString *androidClientID = [self.commandDelegate.settings objectForKey:[@"ANDROID_CLIENT_ID"]];
     NSString *androidMinimumVersion = options[@"androidMinimumVersion"];
 
     _sendInvitationCallbackId = command.callbackId;

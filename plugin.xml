@@ -21,6 +21,10 @@
     <dependency id="cordova-plugin-firebase-hooks"/>
 
     <platform name="android">
+        <preference name="IOS_CLIENT_ID" default=""/>
+        <preference name="ANDROID_APP_DOMAIN" />
+        <preference name="ANDROID_APP_PATH" />
+
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="FirebaseDynamicLinks">
                 <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinks" />
@@ -28,16 +32,13 @@
             </feature>
         </config-file>
 
-        <preference name="APP_DOMAIN" />
-        <preference name="APP_PATH" />
-
         <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="$APP_DOMAIN" android:pathPrefix="$APP_PATH"/>
-                <data android:scheme="https" android:host="$APP_DOMAIN" android:pathPrefix="$APP_PATH"/>
+                <data android:scheme="http" android:host="$ANDROID_APP_DOMAIN" android:pathPrefix="$ANDROID_APP_PATH"/>
+                <data android:scheme="https" android:host="$ANDROID_APP_DOMAIN" android:pathPrefix="$ANDROID_APP_PATH"/>
             </intent-filter>
         </config-file>
 
@@ -47,6 +48,8 @@
     </platform>
 
     <platform name="ios">
+        <preference name="ANDROID_CLIENT_ID" default=""/>
+
         <config-file parent="/*" target="config.xml">
              <feature name="FirebaseDynamicLinks">
                 <param name="ios-package" value="FirebaseDynamicLinks" />

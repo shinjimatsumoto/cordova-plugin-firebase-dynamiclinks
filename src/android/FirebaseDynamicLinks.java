@@ -137,8 +137,9 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
             try {
               // Only title and message properties are mandatory (and checked in JS API)
               // For all properties, see https://firebase.google.com/docs/invites/android
-              final String title = options.getString("title");
-              final String message = options.getString("message");
+              String title = options.getString("title");
+              String message = options.getString("message");
+              String iosClientId = preferences.getString("IOS_CLIENT_ID", "");
               AppInviteInvitation.IntentBuilder builder = new AppInviteInvitation.IntentBuilder(title).setMessage(message);
 
               if (options.has("deepLink")) {
@@ -161,16 +162,15 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
                 builder.setEmailHtmlContent(options.getString("emailHtmlContent"));
               }
 
-              if (options.has("iosClientID")) {
-                builder.setOtherPlatformsTargetApplication(PROJECT_PLATFORM_IOS, options.getString("iosClientID"));
+              if (!iosClientId.isEmpty()) {
+                builder.setOtherPlatformsTargetApplication(PROJECT_PLATFORM_IOS, iosClientId);
               }
 
               if (options.has("androidMinimumVersion")) {
                 builder.setAndroidMinimumVersionCode(options.getInt("androidMinimumVersion"));
               }
 
-              final Intent intent = builder.build();
-              cordova.startActivityForResult(that, intent, REQUEST_INVITE);
+              cordova.startActivityForResult(that, builder.build(), REQUEST_INVITE);
 
             } catch (JSONException e) {
               _sendInvitationCallbackContext.error(e.getMessage());
