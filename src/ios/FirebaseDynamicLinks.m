@@ -36,29 +36,20 @@
     NSString *deepLink = options[@"deepLink"];
     NSString *callToActionText = options[@"callToActionText"];
     NSString *customImage = options[@"customImage"];
-    NSString *description = options[@"description"];
 
-    NSString *androidClientID = [self.commandDelegate.settings objectForKey:[@"ANDROID_CLIENT_ID"]];
+    NSString *androidClientID = [self.commandDelegate.settings objectForKey:[@"ANDROID_CLIENT_ID" lowercaseString]];
     NSString *androidMinimumVersion = options[@"androidMinimumVersion"];
 
     _sendInvitationCallbackId = command.callbackId;
 
     _inviteDialog = [FIRInvites inviteDialog];
+
     [_inviteDialog setInviteDelegate:self];
-
-
-    // A message hint for the dialog. Note this manifests differently depending on the received invitation type.
-    // For example, in an email invite this appears as the subject.
     [_inviteDialog setMessage:message];
-
-    // Title for the dialog, this is what the user sees before sending the invites.
     [_inviteDialog setTitle:title];
-
-    [_inviteDialog setDescription:description];
     [_inviteDialog setDeepLink:deepLink];
     [_inviteDialog setCallToActionText:callToActionText];
     [_inviteDialog setCustomImage:customImage];
-
     // in case an Android app is available as well:
     if (androidClientID) {
         FIRInvitesTargetApplication *targetApplication = [FIRInvitesTargetApplication new];
