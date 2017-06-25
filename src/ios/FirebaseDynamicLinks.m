@@ -6,11 +6,9 @@
 }
 
 - (void)pluginInitialize {
-    if(![FIRApp defaultApp]) {
-        [FIRApp configure];
-    }
+    NSLog(@"Starting Firebase DynamicLinks plugin");
 
-    [GIDSignIn sharedInstance].clientID = [FIRApp defaultApp].options.clientID;
+    [GIDSignIn sharedInstance].clientID = [FIROptions defaultOptions].clientID;
     [GIDSignIn sharedInstance].uiDelegate = self;
     [GIDSignIn sharedInstance].delegate = self;
 }
@@ -36,9 +34,7 @@
     NSString *deepLink = options[@"deepLink"];
     NSString *callToActionText = options[@"callToActionText"];
     NSString *customImage = options[@"customImage"];
-
-    NSString *androidClientID = [self.commandDelegate.settings objectForKey:[@"GoogleAndroidClientId" lowercaseString]];
-    NSString *androidMinimumVersion = options[@"androidMinimumVersion"];
+    NSString *androidClientID = [FIROptions defaultOptions].androidClientID;
 
     _sendInvitationCallbackId = command.callbackId;
 
@@ -56,10 +52,6 @@
         // The Android client ID from the Google API console project (?)
         targetApplication.androidClientID = androidClientID;
         [_inviteDialog setOtherPlatformsTargetApplication:targetApplication];
-    }
-
-    if (androidMinimumVersion) {
-        [_inviteDialog setAndroidMinimumVersionCode:[androidMinimumVersion integerValue]];
     }
 
     self.isSigningIn = YES;
