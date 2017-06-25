@@ -18,12 +18,13 @@
         <merges target="cordova.plugins.firebase.dynamiclinks" />
     </js-module>
 
-    <dependency id="cordova-plugin-firebase-hooks"/>
+    <dependency id="cordova-plugin-firebase-analytics" version="~0.10.0"/>
+
+    <preference name="URL_SCHEME" />
+    <preference name="APP_DOMAIN" />
+    <preference name="APP_PATH" />
 
     <platform name="android">
-        <preference name="APP_DOMAIN" />
-        <preference name="APP_PATH" />
-
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="FirebaseDynamicLinks">
                 <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinks" />
@@ -43,19 +44,47 @@
 
         <source-file src="src/android/FirebaseDynamicLinks.java" target-dir="src/by/chemerisuk/cordova/firebase" />
 
-        <framework src="com.google.firebase:firebase-invites:+" />
+        <framework src="com.google.firebase:firebase-invites:11.0.+" />
+        <framework src="com.google.firebase:firebase-dynamic-links:11.0.+" />
     </platform>
 
     <platform name="ios">
+        <preference name="CONTACTS_USAGE_DESCRIPTION" default=" " />
+
         <config-file parent="/*" target="config.xml">
-             <feature name="FirebaseDynamicLinks">
+            <feature name="FirebaseDynamicLinks">
                 <param name="ios-package" value="FirebaseDynamicLinks" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 
+        <config-file parent="CFBundleURLTypes" target="*-Info.plist">
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLName</key>
+                    <string>REVERSED_CLIENT_ID</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>com.googleusercontent.apps.$URL_SCHEME</string>
+                    </array>
+                </dict>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLName</key>
+                    <string>Bundle ID</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>$PACKAGE_NAME</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+
         <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
-           <string> </string>
+           <string>$CONTACTS_USAGE_DESCRIPTION</string>
         </config-file>
 
         <header-file src="src/ios/AppDelegate+FirebaseDynamicLinks.h" />
