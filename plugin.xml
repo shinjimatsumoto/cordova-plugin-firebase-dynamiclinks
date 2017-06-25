@@ -20,7 +20,7 @@
 
     <dependency id="cordova-plugin-firebase-analytics" version="~0.10.0"/>
 
-    <preference name="URL_SCHEME" />
+    <preference name="REVERSED_CLIENT_ID" />
     <preference name="APP_DOMAIN" />
     <preference name="APP_PATH" />
 
@@ -30,6 +30,8 @@
                 <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinks" />
                 <param name="onload" value="false" />
             </feature>
+
+            <preference name="REVERSED_CLIENT_ID" value="$REVERSED_CLIENT_ID" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application/activity">
@@ -58,7 +60,7 @@
             </feature>
         </config-file>
 
-        <config-file parent="CFBundleURLTypes" target="*-Info.plist">
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
             <array>
                 <dict>
                     <key>CFBundleTypeRole</key>
@@ -67,7 +69,7 @@
                     <string>REVERSED_CLIENT_ID</string>
                     <key>CFBundleURLSchemes</key>
                     <array>
-                        <string>com.googleusercontent.apps.$URL_SCHEME</string>
+                        <string>$REVERSED_CLIENT_ID</string>
                     </array>
                 </dict>
                 <dict>
@@ -80,6 +82,12 @@
                         <string>$PACKAGE_NAME</string>
                     </array>
                 </dict>
+            </array>
+        </config-file>
+
+        <config-file target="Resources/*.entitlements" parent="com.apple.developer.associated-domains">
+            <array>
+                    <string>applinks:$APP_DOMAIN</string>
             </array>
         </config-file>
 
