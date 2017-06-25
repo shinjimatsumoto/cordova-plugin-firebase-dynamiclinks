@@ -1,10 +1,13 @@
 package by.chemerisuk.cordova.firebase;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.text.TextUtils;
 
 import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitation;
@@ -34,9 +37,25 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
 
   private static final int REQUEST_INVITE = 48;
 
+  private String iosClientId;
   private GoogleApiClient _googleApiClient;
   private CallbackContext _sendInvitationCallbackContext;
   private CallbackContext _getInvitationCallbackContext;
+
+  @Override
+  protected void pluginInitialize() {
+      iosClientId = preferences.getString("REVERSED_CLIENT_ID", "");
+
+      // REVERSED_CLIENT_ID -> CLIENT_ID for iOS
+
+      if (!iosClientId.isEmpty()) {
+          List<String> parts = Arrays.asList(iosClientId.split("\\."));
+
+          Collections.reverse(parts);
+
+          iosClientId = TextUtils.join(".", parts);
+      }
+  }
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -139,7 +158,6 @@ public class FirebaseDynamicLinks extends CordovaPlugin implements GoogleApiClie
               // For all properties, see https://firebase.google.com/docs/invites/android
               String title = options.getString("title");
               String message = options.getString("message");
-              String iosClientId = preferences.getString("GoogleIOSClientId", "");
               AppInviteInvitation.IntentBuilder builder = new AppInviteInvitation.IntentBuilder(title).setMessage(message);
 
               if (options.has("deepLink")) {
