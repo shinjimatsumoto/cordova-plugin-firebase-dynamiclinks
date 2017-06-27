@@ -27,7 +27,7 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="FirebaseDynamicLinks">
-                <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinks" />
+                <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseDynamicLinksPlugin" />
                 <param name="onload" value="false" />
             </feature>
 
@@ -44,7 +44,7 @@
             </intent-filter>
         </config-file>
 
-        <source-file src="src/android/FirebaseDynamicLinks.java" target-dir="src/by/chemerisuk/cordova/firebase" />
+        <source-file src="src/android/FirebaseDynamicLinksPlugin.java" target-dir="src/by/chemerisuk/cordova/firebase" />
 
         <framework src="com.google.firebase:firebase-invites:11.0.+" />
         <framework src="com.google.firebase:firebase-dynamic-links:11.0.+" />
@@ -76,7 +76,7 @@
                     <key>CFBundleTypeRole</key>
                     <string>Editor</string>
                     <key>CFBundleURLName</key>
-                    <string>Bundle ID</string>
+                    <string>BUNDLE_ID</string>
                     <key>CFBundleURLSchemes</key>
                     <array>
                         <string>$PACKAGE_NAME</string>
