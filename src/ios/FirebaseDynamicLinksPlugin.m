@@ -1,6 +1,6 @@
-#import "FirebaseDynamicLinks.h"
+#import "FirebaseDynamicLinksPlugin.h"
 
-@implementation FirebaseDynamicLinks {
+@implementation FirebaseDynamicLinksPlugin {
     id <FIRInviteBuilder> _inviteDialog;
     NSString *_sendInvitationCallbackId;
 }

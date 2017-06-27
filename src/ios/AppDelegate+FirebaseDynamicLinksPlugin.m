@@ -1,11 +1,11 @@
-#import "AppDelegate+FirebaseDynamicLinks.h"
-#import "FirebaseDynamicLinks.h"
+#import "AppDelegate+FirebaseDynamicLinksPlugin.h"
+#import "FirebaseDynamicLinksPlugin.h"
 #import <objc/runtime.h>
 
 @import Firebase;
 @import GoogleSignIn;
 
-@implementation AppDelegate (FirebasePlugin)
+@implementation AppDelegate (FirebaseDynamicLinksPlugin)
 
 + (void)load {
     method_exchangeImplementations(
@@ -28,7 +28,7 @@
 - (BOOL)identity_application:(nonnull UIApplication *)application
                      openURL:(nonnull NSURL *)url
                      options:(nonnull NSDictionary<NSString *, id> *)options {
-    FirebaseDynamicLinks* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
+    FirebaseDynamicLinksPlugin* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
     NSString* sourceApplication = options[UIApplicationOpenURLOptionsSourceApplicationKey];
     id annotation = options[UIApplicationOpenURLOptionsAnnotationKey];
 
@@ -50,7 +50,7 @@
                      openURL:(NSURL *)url
            sourceApplication:(NSString *)sourceApplication
                   annotation:(id)annotation {
-    FirebaseDynamicLinks* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
+    FirebaseDynamicLinksPlugin* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
     // Handle App Invite requests
     FIRReceivedInvite *invite =
         [FIRInvites handleURL:url sourceApplication:sourceApplication annotation:annotation];
@@ -96,7 +96,7 @@
 - (BOOL)identity_application:(UIApplication *)application
         continueUserActivity:(NSUserActivity *)userActivity
           restorationHandler:(void (^)(NSArray *))restorationHandler {
-    FirebaseDynamicLinks* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
+    FirebaseDynamicLinksPlugin* dl = [self.viewController getCommandInstance:@"FirebaseDynamicLinks"];
 
     BOOL handled = [[FIRDynamicLinks dynamicLinks]
         handleUniversalLink:userActivity.webpageURL
