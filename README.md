@@ -5,7 +5,9 @@
 
     cordova plugin add cordova-plugin-firebase-dynamiclinks --save --variable APP_DOMAIN="example.com" --variable APP_PATH="/" --variable REVERSED_CLIENT_ID="123456789.com.example"
 
-Variables `APP_DOMAIN` and `APP_PATH` specify web URL where your app will start an activity to handle the link. They also used to setup support for [App Indexing](https://firebase.google.com/docs/app-indexing/). The variable "REVERSED_CLIENT_ID" will be used to set the ```URL Types``` in XCode for iOs and will also be used for configuring the android app.
+Variables `APP_DOMAIN` and `APP_PATH` specify web URL where your app will start an activity to handle the link.
+
+Variable `REVERSED_CLIENT_ID` can be found in your `GoogleService-Info.plist` under the same key name.
 
 ## Supported Platforms
 
