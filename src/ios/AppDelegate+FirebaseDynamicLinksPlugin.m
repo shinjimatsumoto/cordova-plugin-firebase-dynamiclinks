@@ -57,8 +57,8 @@
     if (invite) {
         NSString *matchType = (invite.matchType == FIRReceivedInviteMatchTypeWeak) ? @"Weak" : @"Strong";
         [dl sendDynamicLinkData:@{
-            @"deepLink": invite.deepLink,
-            @"invitationId": invite.inviteId,
+            @"deepLink": invite.deepLink ? invite.deepLink : @"",
+            @"invitationId": invite.inviteId ? invite.inviteId : @"",
             @"matchType": matchType
         }];
 

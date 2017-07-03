@@ -90,40 +90,35 @@ public class FirebaseDynamicLinksPlugin extends CordovaPlugin implements GoogleA
     }
 
     private void respondWithDynamicLink(final Intent intent) {
-        cordova.getThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnSuccessListener(cordova.getActivity(),
-                    new OnSuccessListener<PendingDynamicLinkData>() {
-                        @Override
-                        public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                            if (pendingDynamicLinkData != null) {
-                                Uri deepLink = pendingDynamicLinkData.getLink();
+        FirebaseDynamicLinks.getInstance().getDynamicLink(intent)
+            .addOnSuccessListener(cordova.getActivity(), new OnSuccessListener<PendingDynamicLinkData>() {
+                @Override
+                public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                    if (pendingDynamicLinkData != null) {
+                        Uri deepLink = pendingDynamicLinkData.getLink();
 
-                                if (deepLink != null) {
-                                    JSONObject response = new JSONObject();
-                                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
+                        if (deepLink != null) {
+                            JSONObject response = new JSONObject();
+                            FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
 
-                                    try {
-                                        if (invite != null) {
-                                            response.put("invitationId", invite.getInvitationId());
-                                        }
-
-                                        response.put("deepLink", deepLink);
-                                        response.put("clickTimestamp", pendingDynamicLinkData.getClickTimestamp());
-
-                                        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
-                                        pluginResult.setKeepCallback(true);
-                                        _getInvitationCallbackContext.sendPluginResult(pluginResult);
-                                    } catch (JSONException e) {
-                                        Log.e(TAG, "Fail to handle dynamic link data", e);
-                                    }
+                            try {
+                                if (invite != null) {
+                                    response.put("invitationId", invite.getInvitationId());
                                 }
+
+                                response.put("deepLink", deepLink);
+                                response.put("clickTimestamp", pendingDynamicLinkData.getClickTimestamp());
+
+                                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, response);
+                                pluginResult.setKeepCallback(true);
+                                _getInvitationCallbackContext.sendPluginResult(pluginResult);
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Fail to handle dynamic link data", e);
                             }
                         }
-                    });
-            }
-        });
+                    }
+                }
+            });
     }
 
     private void sendInvitation(final CallbackContext callbackContext, final JSONObject options) {
