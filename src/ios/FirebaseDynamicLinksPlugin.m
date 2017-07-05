@@ -17,7 +17,9 @@
     self.dynamicLinkCallbackId = command.callbackId;
 
     if (self.cachedInvitation) {
-        [self sendDynamicLinkData:self.cachedInvitation];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:self.cachedInvitation];
+        [pluginResult setKeepCallbackAsBool:YES];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.dynamicLinkCallbackId];
 
         self.cachedInvitation = nil;
     }
@@ -59,7 +61,16 @@
     [[GIDSignIn sharedInstance] signIn];
 }
 
-- (void)sendDynamicLinkData:(NSDictionary *)data {
+- (void)postDynamicLink:(NSString*) deepLink weakConfidence:(BOOL) weakConfidence inviteId:(NSString*) inviteId {
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+
+    [data setObject:(deepLink ? deepLink : @"") forKey:@"deepLink"];
+    [data setObject:(weakConfidence ? @"Weak" : @"Strong") forKey:@"matchType"];
+
+    if (inviteId) {
+        [data setObject:inviteId forKey:@"inviteId"];
+    }
+
     if (self.dynamicLinkCallbackId) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:data];
         [pluginResult setKeepCallbackAsBool:YES];

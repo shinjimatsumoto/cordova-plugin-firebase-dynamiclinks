@@ -55,12 +55,8 @@
     FIRReceivedInvite *invite =
         [FIRInvites handleURL:url sourceApplication:sourceApplication annotation:annotation];
     if (invite) {
-        NSString *matchType = (invite.matchType == FIRReceivedInviteMatchTypeWeak) ? @"Weak" : @"Strong";
-        [dl sendDynamicLinkData:@{
-            @"deepLink": invite.deepLink ? invite.deepLink : @"",
-            @"invitationId": invite.inviteId ? invite.inviteId : @"",
-            @"matchType": matchType
-        }];
+        BOOL weakConfidence = (invite.matchType == FIRReceivedInviteMatchTypeWeak);
+        [dl postDynamicLink:invite.deepLink weakConfidence:weakConfidence inviteId:invite.inviteId];
 
         return YES;
     }
@@ -68,11 +64,8 @@
     FIRDynamicLink* dynamicLink =
         [[FIRDynamicLinks dynamicLinks] dynamicLinkFromCustomSchemeURL:url];
     if (dynamicLink) {
-        NSString* matchType = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak) ? @"Weak" : @"Strong";
-        [dl sendDynamicLinkData:@{
-            @"deepLink": dynamicLink.url.absoluteString,
-            @"matchType": matchType
-        }];
+        BOOL weakConfidence = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak);
+        [dl postDynamicLink:dynamicLink.url.absoluteString weakConfidence:weakConfidence inviteId:nil];
 
         return YES;
     }
@@ -102,12 +95,8 @@
         handleUniversalLink:userActivity.webpageURL
         completion:^(FIRDynamicLink * _Nullable dynamicLink, NSError * _Nullable error) {
             if (dynamicLink) {
-                NSString *matchType = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak) ? @"Weak" : @"Strong";
-
-                [dl sendDynamicLinkData:@{
-                    @"deepLink": dynamicLink.url.absoluteString,
-                    @"matchType": matchType
-                }];
+                BOOL weakConfidence = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak);
+                [dl postDynamicLink:dynamicLink.url.absoluteString weakConfidence:weakConfidence inviteId:nil];
             }
         }];
 

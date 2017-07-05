@@ -8,7 +8,7 @@
 
 - (void)onDynamicLink:(CDVInvokedUrlCommand *)command;
 - (void)sendInvitation:(CDVInvokedUrlCommand*)command;
-- (void)sendDynamicLinkData:(NSDictionary*)data;
+- (void)postDynamicLink:(NSString*) deepLink weakConfidence:(BOOL) weakConfidence inviteId:(NSString*) inviteId;
 
 @property (nonatomic, copy) NSString *dynamicLinkCallbackId;
 @property (nonatomic, assign) BOOL isSigningIn;
