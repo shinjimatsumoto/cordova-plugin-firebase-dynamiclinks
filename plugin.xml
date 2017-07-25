@@ -18,7 +18,6 @@
         <merges target="cordova.plugins.firebase.dynamiclinks" />
     </js-module>
 
-    <dependency id="cordova-plugin-firebase-analytics" version="~0.10.0"/>
 
     <preference name="REVERSED_CLIENT_ID" />
     <preference name="APP_DOMAIN" />
