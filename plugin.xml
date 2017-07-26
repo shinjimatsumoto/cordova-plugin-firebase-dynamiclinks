@@ -98,12 +98,10 @@
         <source-file src="src/ios/AppDelegate+FirebaseDynamicLinksPlugin.m" />
         <header-file src="src/ios/FirebaseDynamicLinksPlugin.h" />
         <source-file src="src/ios/FirebaseDynamicLinksPlugin.m" />
-        <framework src="Firebase" type="podspec" spec="~> 4.0.0" />
+        <dependency id="cordova-plugin-cocoapod-support"/>
+        <pods-config ios-min-version="7.0" uses-frameworks="true"/>        
         
-        
-        <pod id="Firebase" />
-        <pod id="Firebase/Core" />
-        <pod id="Firebase/Database" />
+        <pod id="Firebase/Core" version="~> 4.0.0"/>
         <pod id="Firebase/Invites" />
         <pod id="Firebase/DynamicLinks" />
         <pod id="GoogleSignIn" />
