@@ -93,16 +93,15 @@
         <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
            <string>$CONTACTS_USAGE_DESCRIPTION</string>
         </config-file>
-        
-        <dependency id="cordova-plugin-cocoapod-support"/>
-        
-        <header-file src="src/ios/FirebaseAnalyticsPlugin.h" />
-        <source-file src="src/ios/FirebaseAnalyticsPlugin.m" />
+                
         <header-file src="src/ios/AppDelegate+FirebaseDynamicLinksPlugin.h" />
         <source-file src="src/ios/AppDelegate+FirebaseDynamicLinksPlugin.m" />
         <header-file src="src/ios/FirebaseDynamicLinksPlugin.h" />
         <source-file src="src/ios/FirebaseDynamicLinksPlugin.m" />
-      
+        <framework src="Firebase" type="podspec" spec="~> 4.0.0" />
+        <framework src="GoogleSignIn" type="podspec" />
+        
+        
         <pod id="Firebase/Core" version="~> 4.0.0"/>
         <pod id="Firebase/Invites" />
         <pod id="Firebase/DynamicLinks" />
