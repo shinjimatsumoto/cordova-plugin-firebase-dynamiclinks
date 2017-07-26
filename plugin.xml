@@ -100,7 +100,7 @@
         <source-file src="src/ios/FirebaseDynamicLinksPlugin.m" />
         <framework src="Firebase" type="podspec" spec="~> 4.0.0" />
         <framework src="GoogleSignIn" type="podspec" spec="~> 4.0.0" /> 
-        <framework src="Firebase" type="podspec" spec="~> 2.0.0" />
+        <framework src="Firebase/Invites" type="podspec" spec="~> 2.0.0" />
         
         <pod id="Firebase/Core" version="~> 4.0.0"/>
         <pod id="Firebase/Invites" />
