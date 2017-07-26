@@ -1,7 +1,7 @@
 #import <Cordova/CDV.h>
 #import "AppDelegate.h"
+#import <Firebase/Firebase.h>
 
-@import Firebase;
 @import GoogleSignIn;
 
 @interface FirebaseDynamicLinksPlugin : CDVPlugin<FIRInviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
