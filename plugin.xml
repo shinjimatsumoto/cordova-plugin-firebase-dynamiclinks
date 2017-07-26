@@ -93,9 +93,6 @@
         <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
            <string>$CONTACTS_USAGE_DESCRIPTION</string>
         </config-file>
-        
-        <header-file src="src/ios/FirebaseAnalyticsPlugin.h" />
-        <source-file src="src/ios/FirebaseAnalyticsPlugin.m" />
   
         <header-file src="src/ios/AppDelegate+FirebaseDynamicLinksPlugin.h" />
         <source-file src="src/ios/AppDelegate+FirebaseDynamicLinksPlugin.m" />
