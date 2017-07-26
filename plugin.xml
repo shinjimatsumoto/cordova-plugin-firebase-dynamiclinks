@@ -99,7 +99,7 @@
         <header-file src="src/ios/FirebaseDynamicLinksPlugin.h" />
         <source-file src="src/ios/FirebaseDynamicLinksPlugin.m" />
 
-        <pod id="Firebase/Core" />
+        <pod id="Firebase" />
         <pod id="Firebase/Invites" />
         <pod id="Firebase/DynamicLinks" />
         <pod id="GoogleSignIn" />
