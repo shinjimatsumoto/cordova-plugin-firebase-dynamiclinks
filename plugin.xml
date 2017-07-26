@@ -95,7 +95,6 @@
         </config-file>
         
         <dependency id="cordova-plugin-cocoapod-support"/>
-        <pods-config ios-min-version="7.0" uses-frameworks="true"/>  
         
         <header-file src="src/ios/FirebaseAnalyticsPlugin.h" />
         <source-file src="src/ios/FirebaseAnalyticsPlugin.m" />
