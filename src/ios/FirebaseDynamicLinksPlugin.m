@@ -8,6 +8,12 @@
 - (void)pluginInitialize {
     NSLog(@"Starting Firebase DynamicLinks plugin");
 
+    [FIROptions defaultOptions].deepLinkURLScheme = [FIROptions defaultOptions].bundleID;
+
+    if(![FIRApp defaultApp]) {
+        [FIRApp configure];
+    }
+
     [GIDSignIn sharedInstance].clientID = [FIROptions defaultOptions].clientID;
     [GIDSignIn sharedInstance].uiDelegate = self;
     [GIDSignIn sharedInstance].delegate = self;
