@@ -4,7 +4,7 @@
 @import Firebase;
 @import GoogleSignIn;
 
-@interface FirebaseDynamicLinksPlugin : CDVPlugin<FIRInviteDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
+@interface FirebaseDynamicLinksPlugin : CDVPlugin
 
 - (void)onDynamicLink:(CDVInvokedUrlCommand *)command;
 - (void)sendInvitation:(CDVInvokedUrlCommand*)command;
