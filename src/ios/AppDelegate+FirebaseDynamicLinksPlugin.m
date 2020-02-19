@@ -56,6 +56,7 @@
         [FIRInvites handleURL:url sourceApplication:sourceApplication annotation:annotation];
     if (invite) {
         BOOL weakConfidence = (invite.matchType == FIRReceivedInviteMatchTypeWeak);
+
         [dl postDynamicLink:invite.deepLink weakConfidence:weakConfidence inviteId:invite.inviteId];
 
         return YES;
@@ -94,6 +95,13 @@
     BOOL handled = [[FIRDynamicLinks dynamicLinks]
         handleUniversalLink:userActivity.webpageURL
         completion:^(FIRDynamicLink * _Nullable dynamicLink, NSError * _Nullable error) {
+            // Try this method as some dynamic links are not recognize by handleUniversalLink
+            // ISSUE: https://github.com/firebase/firebase-ios-sdk/issues/743
+            if (!dynamicLink || !dynamicLink.url) {
+                dynamicLink = [[FIRDynamicLinks dynamicLinks]
+                                dynamicLinkFromUniversalLinkURL:userActivity.webpageURL];
+            }
+
             if (dynamicLink) {
                 BOOL weakConfidence = (dynamicLink.matchConfidence == FIRDynamicLinkMatchConfidenceWeak);
                 [dl postDynamicLink:dynamicLink.url.absoluteString weakConfidence:weakConfidence inviteId:nil];
